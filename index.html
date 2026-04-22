@@ -1,0 +1,1627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Math for Economics — A Complete Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+<style>
+  :root {
+    --ink:       #1a1410;
+    --paper:     #faf7f2;
+    --cream:     #f2ece0;
+    --rust:      #b5451b;
+    --gold:      #c8922a;
+    --sage:      #4a6741;
+    --slate:     #3d5166;
+    --muted:     #8a7f72;
+    --rule:      #ddd5c4;
+    --highlight: #fff8e7;
+    --code-bg:   #f5f0e8;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 17px;
+    line-height: 1.8;
+    font-weight: 300;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 4rem 2rem 3rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 40px,
+      rgba(255,255,255,0.02) 40px,
+      rgba(255,255,255,0.02) 41px
+    );
+  }
+  header .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.2rem;
+  }
+  header h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(2.4rem, 6vw, 4.2rem);
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+  }
+  header h1 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+  header .subtitle {
+    font-size: 1.05rem;
+    color: rgba(250,247,242,0.65);
+    max-width: 520px;
+    margin: 0 auto 2.5rem;
+    font-weight: 300;
+  }
+  .header-nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    position: relative;
+    z-index: 1;
+  }
+  .header-nav a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    color: rgba(250,247,242,0.7);
+    text-decoration: none;
+    border: 1px solid rgba(250,247,242,0.2);
+    padding: 0.3rem 0.85rem;
+    border-radius: 2px;
+    transition: all 0.2s;
+  }
+  .header-nav a:hover {
+    color: var(--gold);
+    border-color: var(--gold);
+    background: rgba(200,146,42,0.08);
+  }
+
+  /* ── LAYOUT ── */
+  .page-wrap {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  /* ── TABLE OF CONTENTS ── */
+  .toc-block {
+    background: var(--cream);
+    border-left: 3px solid var(--rust);
+    margin: 3rem 0;
+    padding: 2rem 2.5rem;
+  }
+  .toc-block h2 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 1.2rem;
+  }
+  .toc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.25rem 2rem;
+  }
+  @media (max-width: 540px) { .toc-grid { grid-template-columns: 1fr; } }
+  .toc-grid a {
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 0.92rem;
+    padding: 0.2rem 0;
+    border-bottom: 1px solid var(--rule);
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    transition: color 0.2s;
+  }
+  .toc-grid a:hover { color: var(--rust); }
+  .toc-grid a .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--muted);
+    min-width: 1.4rem;
+  }
+
+  /* ── SECTIONS ── */
+  .concept {
+    padding: 3.5rem 0 2rem;
+    border-top: 1px solid var(--rule);
+  }
+  .concept:first-of-type { border-top: none; }
+
+  .concept-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.2rem;
+    margin-bottom: 2rem;
+  }
+  .concept-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: var(--rule);
+    line-height: 1;
+    min-width: 2rem;
+    margin-top: -0.3rem;
+  }
+  .concept-title-group {}
+  .concept-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 0.3rem;
+  }
+  .concept h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.6rem, 3.5vw, 2.1rem);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+  }
+
+  /* ── SUB-HEADINGS ── */
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--rust);
+    display: block;
+    margin: 2rem 0 0.6rem;
+  }
+
+  /* ── PROSE ── */
+  p { margin-bottom: 1rem; }
+  p + p { margin-top: 0; }
+  strong { font-weight: 600; color: var(--ink); }
+  em { font-style: italic; }
+
+  /* ── CALLOUT BOXES ── */
+  .callout {
+    border-left: 3px solid var(--gold);
+    background: var(--highlight);
+    padding: 1rem 1.4rem;
+    margin: 1.5rem 0;
+    font-size: 0.95rem;
+  }
+  .callout.sage { border-color: var(--sage); background: #f2f7f0; }
+  .callout.slate { border-color: var(--slate); background: #f0f4f7; }
+  .callout.rust  { border-color: var(--rust);  background: #fdf4f0; }
+  .callout strong { display: block; margin-bottom: 0.3rem; }
+
+  /* ── MATH DISPLAY ── */
+  .math-block {
+    background: var(--cream);
+    border: 1px solid var(--rule);
+    padding: 1.2rem 1.5rem;
+    margin: 1.5rem 0;
+    overflow-x: auto;
+    text-align: center;
+    font-size: 1.05rem;
+  }
+  .math-block.labeled {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-align: left;
+    flex-wrap: wrap;
+  }
+  .math-block .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--muted);
+    min-width: 6rem;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── STEP BOXES ── */
+  .steps {
+    counter-reset: step;
+    margin: 1.5rem 0;
+  }
+  .step {
+    counter-increment: step;
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.2rem;
+    align-items: flex-start;
+  }
+  .step::before {
+    content: counter(step);
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--paper);
+    background: var(--rust);
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 0.15rem;
+  }
+  .step-body {}
+  .step-body strong { display: block; margin-bottom: 0.2rem; }
+
+  /* ── TABLES ── */
+  .table-wrap { overflow-x: auto; margin: 1.5rem 0; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    font-family: 'Source Serif 4', serif;
+  }
+  thead { background: var(--ink); color: var(--paper); }
+  thead th {
+    padding: 0.65rem 1rem;
+    text-align: left;
+    font-weight: 400;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  tbody tr:nth-child(even) { background: var(--cream); }
+  tbody td { padding: 0.55rem 1rem; border-bottom: 1px solid var(--rule); vertical-align: top; }
+
+  /* ── WORKED EXAMPLE ── */
+  .worked {
+    border: 1px solid var(--rule);
+    margin: 2rem 0;
+    background: #fff;
+  }
+  .worked-header {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 0.6rem 1.2rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .worked-header::before {
+    content: '✎';
+    font-size: 0.9rem;
+  }
+  .worked-body {
+    padding: 1.4rem 1.6rem;
+  }
+  .worked-body .math-block {
+    margin: 1rem 0;
+    background: var(--cream);
+  }
+
+  /* ── ANALOGY BLOCK ── */
+  .analogy {
+    background: var(--paper);
+    border: 1px dashed var(--rule);
+    padding: 1.2rem 1.5rem;
+    margin: 1.5rem 0;
+    position: relative;
+  }
+  .analogy::before {
+    content: '💡';
+    position: absolute;
+    top: -0.8rem;
+    left: 1rem;
+    background: var(--paper);
+    padding: 0 0.3rem;
+    font-size: 1rem;
+  }
+  .analogy p { margin: 0; font-style: italic; color: #555; }
+
+  /* ── DIVIDER ── */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--rule);
+    margin: 0;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink);
+    color: rgba(250,247,242,0.5);
+    text-align: center;
+    padding: 2.5rem 1rem;
+    font-size: 0.85rem;
+    margin-top: 4rem;
+  }
+  footer a { color: var(--gold); text-decoration: none; }
+
+  /* ── PROGRESS BAR ── */
+  #progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    background: var(--rust);
+    width: 0%;
+    z-index: 1000;
+    transition: width 0.1s linear;
+  }
+
+  /* ── BACK TO TOP ── */
+  #back-top {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    width: 2.5rem;
+    height: 2.5rem;
+    cursor: pointer;
+    font-size: 1rem;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+  }
+  #back-top:hover { background: var(--rust); }
+  #back-top.visible { display: flex; }
+
+  /* ── ANIMATION ── */
+  .concept { opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; }
+  .concept.visible { opacity: 1; transform: none; }
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+<button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<!-- HEADER -->
+<header>
+  <div class="eyebrow">Economics · Mathematics · Step by Step</div>
+  <h1>Math for<br><em>Economics</em></h1>
+  <p class="subtitle">Derivatives, matrices, optimisation, and differential equations — explained from first principles.</p>
+  <nav class="header-nav">
+    <a href="#derivatives">Derivatives</a>
+    <a href="#partial">Partial Derivatives</a>
+    <a href="#matrices">Matrices</a>
+    <a href="#foc">FOC</a>
+    <a href="#lagrangian">Lagrangian</a>
+    <a href="#jacobian">Jacobian</a>
+    <a href="#hessian">Hessian</a>
+    <a href="#eigenvalues">Eigenvalues</a>
+    <a href="#ode">ODEs</a>
+    <a href="#stability">Stability</a>
+    <a href="#limits">Limits</a>
+    <a href="#marshallian">Marshallian Demand</a>
+  </nav>
+</header>
+
+<main class="page-wrap">
+
+  <!-- TABLE OF CONTENTS -->
+  <div class="toc-block">
+    <h2>Contents</h2>
+    <div class="toc-grid">
+      <a href="#derivatives"><span class="num">01</span>Derivatives (What &amp; How)</a>
+      <a href="#partial"><span class="num">02</span>Partial Derivatives</a>
+      <a href="#matrices"><span class="num">03</span>Matrices (What &amp; Operations)</a>
+      <a href="#foc"><span class="num">04</span>First-Order Conditions</a>
+      <a href="#lagrangian"><span class="num">05</span>Lagrangian Method</a>
+      <a href="#jacobian"><span class="num">06</span>Jacobian Matrix</a>
+      <a href="#hessian"><span class="num">07</span>Hessian Matrix</a>
+      <a href="#eigenvalues"><span class="num">08</span>Eigenvalues &amp; Eigenvectors</a>
+      <a href="#ode"><span class="num">09</span>Ordinary Differential Equations</a>
+      <a href="#stability"><span class="num">10</span>Equilibrium &amp; Stability</a>
+      <a href="#limits"><span class="num">11</span>Limits at Infinity</a>
+      <a href="#marshallian"><span class="num">12</span>Marshallian Demand</a>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- 1. DERIVATIVES -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <section class="concept" id="derivatives">
+    <div class="concept-header">
+      <div class="concept-num">1</div>
+      <div class="concept-title-group">
+        <span class="concept-tag">Foundation</span>
+        <h2>The Derivative</h2>
+      </div>
+    </div>
+
+    <span class="section-label">What is it?</span>
+    <p>The derivative of a function measures its <strong>instantaneous rate of change</strong> — how quickly the value of the function changes when the input changes by an infinitely small amount.</p>
+
+    <div class="analogy"><p>You are driving a car. Your position changes over time. The derivative of position with respect to time is <strong>velocity</strong> — how fast you are moving right now. The derivative of velocity is <strong>acceleration</strong>. A derivative is the rate of change.</p></div>
+
+    <span class="section-label">Formal definition</span>
+    <p>We take two points on a curve very close to each other, draw a line through them (a secant), and ask: as the points move infinitely close together, what slope does this line approach? This limiting slope is the derivative.</p>
+
+    <div class="math-block">
+      $$f'(x) = \lim_{h \to 0} \frac{f(x+h) - f(x)}{h}$$
+    </div>
+    <p style="font-size:0.9rem;color:var(--muted);text-align:center;margin-top:-1rem">Definicja formalna — nachylenie stycznej w punkcie x</p>
+
+    <span class="section-label">Notation — all forms mean the same thing</span>
+    <div class="math-block">$$f'(x) \qquad \frac{df}{dx} \qquad \frac{d}{dx}f(x) \qquad \dot{f} \;\text{(when x represents time)}$$</div>
+
+    <span class="section-label">Differentiation rules</span>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Rule</th><th>Formula</th><th>Numerical example</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Power rule</strong></td><td>\(\dfrac{d}{dx} x^n = n \cdot x^{n-1}\)</td><td>\(\dfrac{d}{dx} x^5 = 5x^4\)</td></tr>
+          <tr><td><strong>Constant</strong></td><td>\(\dfrac{d}{dx} c = 0\)</td><td>\(\dfrac{d}{dx} 13 = 0\)</td></tr>
+          <tr><td><strong>Constant x Function</strong></td><td>\(\dfrac{d}{dx} [c \cdot f] = c \cdot f'\)</td><td>\(\dfrac{d}{dx} 4x^3 = 12x^2\)</td></tr>
+          <tr><td><strong>Sum Rule</strong></td><td>\(\dfrac{d}{dx}[f+g] = f' + g'\)</td><td>\(\dfrac{d}{dx}[x^3 + x^2] = 3x^2 + 2x\)</td></tr>
+          <tr><td><strong>Product Rule</strong></td><td>\(\dfrac{d}{dx}[f \cdot g] = f'g + fg'\)</td><td>\(\dfrac{d}{dx}[x^2 \cdot e^x] = 2xe^x + x^2e^x\)</td></tr>
+          <tr><td><strong>Quotient Rule</strong></td><td>\(\dfrac{d}{dx}\!\left[\dfrac{f}{g}\right] = \dfrac{f'g - fg'}{g^2}\)</td><td>\(\dfrac{d}{dx}\!\left[\dfrac{x^2}{x+1}\right] = \dfrac{2x(x+1)-x^2}{(x+1)^2}\)</td></tr>
+          <tr><td><strong>Chain Rule</strong></td><td>\(\dfrac{d}{dx}f(g(x)) = f'(g(x)) \cdot g'(x)\)</td><td>\(\dfrac{d}{dx}(x^2+1)^5 = 5(x^2+1)^4 \cdot 2x\)</td></tr>
+          <tr><td><strong>Exponential</strong></td><td>\(\dfrac{d}{dx} e^x = e^x\)</td><td>\(\dfrac{d}{dx} e^{5x} = 5e^{5x}\)</td></tr>
+          <tr><td><strong>Natural Logarithm</strong></td><td>\(\dfrac{d}{dx} \ln(x) = \dfrac{1}{x}\)</td><td>\(\dfrac{d}{dx} \ln(3x) = \dfrac{1}{x}\)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- EXAMPLE A: polynomial -->
+    <div class="worked">
+      <div class="worked-header">Example A — Polynomial (Power Rule + Sum Rule)</div>
+      <div class="worked-body">
+        <p>Calculate \(f'(x)\) for \(f(x) = 4x^3 - 7x^2 + 2x - 9\)</p>
+        <div class="steps">
+          <div class="step"><div class="step-body">
+            <strong>Differentiate each term separately::</strong><br>
+            \(4x^3 \;\xrightarrow{\text{power rule}}\; 4 \cdot 3x^{3-1} = 12x^2\)
+          </div></div>
+          <div class="step"><div class="step-body">
+            \(-7x^2 \;\xrightarrow{\text{power rule}}\; -7 \cdot 2x^{2-1} = -14x\)
+          </div></div>
+          <div class="step"><div class="step-body">
+            \(2x \;\xrightarrow{\text{power rule}}\; 2 \cdot 1 \cdot x^{0} = 2\)
+          </div></div>
+          <div class="step"><div class="step-body">
+            \(-9 \;\xrightarrow{\text{constant rule}}\; 0\)
+          </div></div>
+          <div class="step"><div class="step-body">
+            <strong>Result:</strong>
+            \[f'(x) = 12x^2 - 14x + 2\]
+          </div></div>
+        </div>
+        <div class="callout sage"><strong>Verification point \(x = 1\):</strong> \(f'(1) = 12 - 14 + 2 = 0\). This means that \(x=1\) $x=1$ is a critical point (slope = 0).</div>
+      </div>
+    </div>
+
+    <!-- EXAMPLE B: chain rule -->
+    <div class="worked">
+      <div class="worked-header">Example B — Chain Rule (Composite Function)</div>
+      <div class="worked-body">
+        <p>Calculate \(g'(x)\) dla \(g(x) = e^{3x^2 - 1}\)</p>
+        <div class="analogy" style="margin-bottom:1rem"><p>Chain rule is the derivative of the outer function $\times$ the derivative of the inner function. Like the layers of an onion — differentiate from the outside in.</p></div>
+        <div class="steps">
+          <div class="step"><div class="step-body">
+            <strong>Identify the layers:</strong><br>
+            Outer function: \(f(u) = e^u\), &nbsp; inner function: \(u = 3x^2 - 1\)
+          </div></div>
+          <div class="step"><div class="step-body">
+            <strong>Derivatives separately:</strong><br>
+            \(f'(u) = e^u\) &nbsp;(exponential — remains unchanged)<br>
+            \(u' = \dfrac{d}{dx}(3x^2-1) = 6x\)
+          </div></div>
+          <div class="step"><div class="step-body">
+            <strong>Combine: \(f'(u) \cdot u'\):</strong>
+            \[g'(x) = e^{3x^2-1} \cdot 6x = 6x\,e^{3x^2-1}\]
+          </div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXAMPLE C: product rule -->
+    <div class="worked">
+      <div class="worked-header">Example C — Product Rule</div>
+      <div class="worked-body">
+        <p>Calculate \(h'(x)\) for \(h(x) = x^2 \cdot \ln(x)\)</p>
+        <div class="steps">
+          <div class="step"><div class="step-body">
+            <strong>Identify factors:</strong> \(u = x^2\), \;\; \(v = \ln(x)\)
+          </div></div>
+          <div class="step"><div class="step-body">
+            <strong>Calculate derivatives:</strong> \(u' = 2x\), \;\; \(v' = \dfrac{1}{x}\)
+          </div></div>
+          <div class="step"><div class="step-body">
+            <strong>Apply the formula \(u'v + uv'\):</strong>
+            \[h'(x) = 2x \cdot \ln(x) + x^2 \cdot \frac{1}{x} = 2x\ln(x) + x\]
+          </div></div>
+          <div class="step"><div class="step-body">
+            <strong>Simplify:</strong>
+            \[h'(x) = x\bigl(2\ln(x) + 1\bigr)\]
+          </div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXAMPLE D: quotient rule -->
+    <div class="worked">
+      <div class="worked-header">Example D — Quotient Rule</div>
+      <div class="worked-body">
+        <p>Calculate \(q'(x)\) for \(q(x) = \dfrac{x^2 + 1}{2x - 3}\)</p>
+        <div class="callout"><strong>Formula:</strong> \(\left(\dfrac{u}{v}\right)' = \dfrac{u'v - uv'}{v^2}\) &nbsp;— "derivative of the top times the bottom, minus the top times the derivative of the bottom, all over the bottom squared'"</div>
+        <div class="steps">
+          <div class="step"><div class="step-body">
+            <strong>Identify \(a, \, b\):</strong> \(a = x^2+1\), &nbsp;\(b = 2x-3\)
+          </div></div>
+          <div class="step"><div class="step-body">
+            <strong>Derivatives:</strong> \(a' = 2x\), &nbsp; \(b' = 2\)
+          </div></div>
+          <div class="step"><div class="step-body">
+            <strong>Substitute:</strong>
+            \[q'(x) = \frac{2x(2x-3) - (x^2+1)\cdot 2}{(2x-3)^2}\]
+          </div></div>
+          <div class="step"><div class="step-body">
+            <strong>Expand numerator:</strong>
+            \[= \frac{4x^2 - 6x - 2x^2 - 2}{(2x-3)^2} = \frac{2x^2 - 6x - 2}{(2x-3)^2}\]
+          </div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXAMPLE E: chained log + chain -->
+    <div class="worked">
+      <div class="worked-header">Chain Rule with Logarithm (Typical in Economics)</div>
+      <div class="worked-body">
+        <p>Calculate \(p'(x)\) for \(p(x) = \ln(x^2 + 3x)\)</p>
+        <div class="steps">
+          <div class="step"><div class="step-body">
+            <strong>Formula: </strong> \(\dfrac{d}{dx}\ln(u) = \dfrac{u'}{u}\)
+          </div></div>
+          <div class="step"><div class="step-body">
+            <strong>Here \(u = x^2 + 3x\), so \(u' = 2x + 3\):</strong>
+            \[p'(x) = \frac{2x + 3}{x^2 + 3x} = \frac{2x+3}{x(x+3)}\]
+          </div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXAMPLE F: second derivative -->
+    <div class="worked">
+      <div class="worked-header">Example F — Second Derivative (Classification of Points)</div>
+      <div class="worked-body">
+        <p>Given \(f(x) = x^3 - 6x^2 + 9x + 1\). Find the critical points and determine their nature.</p>
+        <div class="steps">
+          <div class="step"><div class="step-body">
+            <strong>First Derivative:</strong>
+            \[f'(x) = 3x^2 - 12x + 9 = 3(x^2 - 4x + 3) = 3(x-1)(x-3)\]
+          </div></div>
+          <div class="step"><div class="step-body">
+            <strong>First-Order Condition \(f'(x)=0\):</strong>
+            \[x_1 = 1 \qquad x_2 = 3\]
+          </div></div>
+          <div class="step"><div class="step-body">
+            <strong>Second Derivative:</strong>
+            \[f''(x) = 6x - 12\]
+          </div></div>
+          <div class="step"><div class="step-body">
+            <strong>Test \(x_1 = 1\):</strong>
+            \[f''(1) = 6 - 12 = -6 < 0 \implies \textbf{Local MAXIMUM}\]
+            \[f(1) = 1 - 6 + 9 + 1 = 5\]
+          </div></div>
+          <div class="step"><div class="step-body">
+            <strong>Sprawdź \(x_2 = 3\):</strong>
+            \[f''(3) = 18 - 12 = +6 > 0 \implies \textbf{Local MINIMUM}\]
+            \[f(3) = 27 - 54 + 27 + 1 = 1\]
+          </div></div>
+        </div>
+        <div class="callout sage"><strong>The \(f''(x^*)\) Sign Rule:</strong>
+          <br>— \(f''(x^*) < 0\): The curve is concave down &nbsp;→&nbsp; point is <strong>a maximum </strong> (top of a hill)
+          <br>— \(f''(x^*) > 0\): The curve is concave &nbsp;→&nbsp; point is a <strong>minimum</strong> (bottom of a valley)
+        </div>
+      </div>
+    </div>
+
+    <span class="section-label">Higher-Order Derivatives — Summary</span>
+    <div class="math-block labeled">
+      <span class="label">1st Derivative</span><span>\(f'(x)\) — slope / rate of change</span>
+    </div>
+    <div class="math-block labeled">
+      <span class="label">2nd Derivative</span><span>\(f''(x)\) — curvature (is the slope increasing or decreasing?)</span>
+    </div>
+    <div class="math-block labeled">
+      <span class="label">3rd Derivative</span><span>\(f'''(x)\) — — how quickly the curvature is changing</span>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- 2. PARTIAL DERIVATIVES -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <section class="concept" id="partial">
+    <div class="concept-header">
+      <div class="concept-num">2</div>
+      <div class="concept-title-group">
+        <span class="concept-tag">Foundation</span>
+        <h2>Partial Derivatives</h2>
+      </div>
+    </div>
+
+    <span class="section-label">What is it?</span>
+    <p>When a function has <strong>more than one variable</strong>, a partial derivative measures how the function changes with respect to one variable, <em>while holding all others fixed</em>.</p>
+
+    <div class="analogy"><p>You are baking bread. The taste depends on flour (x) and salt (y). A partial derivative w.r.t. flour asks: "if I add a tiny bit more flour but keep salt exactly the same, how does taste change?" Partial derivatives isolate one ingredient at a time.</p></div>
+
+    <span class="section-label">Notation</span>
+    <div class="math-block">$$\frac{\partial f}{\partial x} \qquad f_x \qquad \partial_x f$$</div>
+    <p>The curly \(\partial\) ("del") distinguishes partial derivatives from ordinary derivatives.</p>
+
+    <span class="section-label">How to calculate</span>
+    <div class="callout sage"><strong>The rule:</strong> To find \(\partial f/\partial x\), treat every other variable as a constant and differentiate normally with respect to \(x\).</div>
+
+    <div class="worked">
+      <div class="worked-header">Worked Example — Partial derivatives</div>
+      <div class="worked-body">
+        <p>Let \(f(x, y) = 3x^2 y + x y^3 - 5y\)</p>
+        <div class="steps">
+          <div class="step"><div class="step-body"><strong>Find \(\partial f / \partial x\):</strong> Treat \(y\) as a constant.
+            \[\frac{\partial f}{\partial x} = 6xy + y^3 - 0 = 6xy + y^3\]
+            (The \(-5y\) term disappears since it has no \(x\).)
+          </div></div>
+          <div class="step"><div class="step-body"><strong>Find \(\partial f / \partial y\):</strong> Treat \(x\) as a constant.
+            \[\frac{\partial f}{\partial y} = 3x^2 + 3xy^2 - 5\]
+            (\(3x^2 y \to 3x^2\), \(xy^3 \to 3xy^2\), \(-5y \to -5\))
+          </div></div>
+        </div>
+        <p><strong>Verify at the point (1, 2):</strong></p>
+        <div class="math-block labeled">
+          <span class="label">at (1,2)</span><span>\(\partial f/\partial x = 6(1)(2) + (2)^3 = 12 + 8 = 20\)</span>
+        </div>
+        <div class="math-block labeled">
+          <span class="label">at (1,2)</span><span>\(\partial f/\partial y = 3(1)^2 + 3(1)(2)^2 - 5 = 3 + 12 - 5 = 10\)</span>
+        </div>
+      </div>
+    </div>
+
+    <span class="section-label">Second-order partial derivatives</span>
+    <p>You can differentiate again. The <strong>mixed partial</strong> \(\partial^2 f / \partial x\, \partial y\) differentiates first w.r.t. \(y\) then w.r.t. \(x\) (or vice versa — they are equal for smooth functions).</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Notation</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td>\(f_{xx} = \partial^2 f/\partial x^2\)</td><td>Differentiate w.r.t. \(x\) twice</td></tr>
+          <tr><td>\(f_{yy} = \partial^2 f/\partial y^2\)</td><td>Differentiate w.r.t. \(y\) twice</td></tr>
+          <tr><td>\(f_{xy} = \partial^2 f/\partial x\,\partial y\)</td><td>Differentiate w.r.t. \(y\) first, then \(x\)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- 3. MATRICES -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <section class="concept" id="matrices">
+    <div class="concept-header">
+      <div class="concept-num">3</div>
+      <div class="concept-title-group">
+        <span class="concept-tag">Algebra Liniowa</span>
+        <h2>Macierze</h2>
+      </div>
+    </div>
+
+    <span class="section-label">What is a matrix?</span>
+    <p>A matrix is a rectangular array of numbers arranged in rows and columns.  A matrix with \(m\) rows and \(n\) columns is called an \(m \times n\) matrix.</p>
+
+    <div class="math-block">
+      $$A = \begin{pmatrix} a_{11} & a_{12} & a_{13} \\ a_{21} & a_{22} & a_{23} \\ a_{31} & a_{32} & a_{33} \end{pmatrix} = \begin{pmatrix} 2 & -1 & 3 \\ 0 & 5 & 1 \\ 4 & 2 & -2 \end{pmatrix}$$
+    </div>
+
+    <p>The element \(a_{ij}\) is located in row \(i\) and column \(j\). For example: \(a_{12} = -1\) (row 1, column 2). Rows are counted from top to bottom, columns from left to right.</p>
+
+    <div class="callout slate">
+      <strong>Important special matrices:</strong><br>
+      Identity matrix \(I_2 = \begin{pmatrix}1&0\\0&1\end{pmatrix}\) — ones on the diagonal, zeros elsewhere.<br>
+      Zero matrix \(O = \begin{pmatrix}0&0\\0&0\end{pmatrix}\) — all elements are zero.
+    </div>
+
+    <!-- ADDITION -->
+    <span class="section-label">Matrix addition</span>
+    <p>We add elements in corresponding positions. This is only possible when both matrices have the same size.</p>
+
+    <div class="worked">
+      <div class="worked-header">Example — Adding 2×2 matrices</div>
+      <div class="worked-body">
+        $$\begin{pmatrix}1&2\\3&4\end{pmatrix} + \begin{pmatrix}5&0\\-1&2\end{pmatrix}$$
+        <div class="steps">
+          <div class="step"><div class="step-body">
+            <strong>Position (1,1):</strong> \(1 + 5 = 6\)
+          </div></div>
+          <div class="step"><div class="step-body">
+            <strong>Position (1,2):</strong> \(2 + 0 = 2\)
+          </div></div>
+          <div class="step"><div class="step-body">
+            <strong>Position (2,1):</strong> \(3 + (-1) = 2\)
+          </div></div>
+          <div class="step"><div class="step-body">
+            <strong>Position (2,2):</strong> \(4 + 2 = 6\)
+          </div></div>
+          <div class="step"><div class="step-body">
+            <strong>Result:</strong>
+            \[\begin{pmatrix}1&2\\3&4\end{pmatrix} + \begin{pmatrix}5&0\\-1&2\end{pmatrix} = \begin{pmatrix}6&2\\2&6\end{pmatrix}\]
+          </div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCALAR MULT -->
+    <span class="section-label">Scalar multiplication</span>
+    <p>Multiply each element of the matrix by a number (scalar):</p>
+    <div class="math-block">
+      $$3 \cdot \begin{pmatrix}2 & -1 \\ 0 & 4\end{pmatrix} = \begin{pmatrix}3\cdot2 & 3\cdot(-1) \\ 3\cdot0 & 3\cdot4\end{pmatrix} = \begin{pmatrix}6 & -3 \\ 0 & 12\end{pmatrix}$$
+    </div>
+
+    <!-- MATRIX MULT — FULL VISUAL -->
+    <span class="section-label">Matrix multiplication — rule and visualization</span>
+
+    <div class="callout rust">
+      <strong>Dimension compatibility rule:</strong> To multiply \(A \times B\), the number of <em>columns of A</em> must equal the number of <em>rows of B:</em>.
+      \[(m \times \mathbf{k}) \cdot (\mathbf{k} \times n) = (m \times n)\]
+      The result has as many rows as A and as many columns as B.
+    </div>
+
+    <p>The element at position \((i,j)\)  <strong>dot product (iloczyn skalarny)</strong> of row \(i\) of matrix A and column \(j\) of B matrix:</p>
+    <div class="math-block">
+      $$(AB)_{ij} = \sum_{k} a_{ik} \cdot b_{kj} = a_{i1}b_{1j} + a_{i2}b_{2j} + \cdots$$
+    </div>
+
+    <div class="worked">
+      <div class="worked-header">Example 1 — 2×2 multiplication step by step</div>
+      <div class="worked-body">
+        $$A = \begin{pmatrix}1&2\\3&4\end{pmatrix}, \quad B = \begin{pmatrix}5&6\\7&8\end{pmatrix}, \quad AB = \;?$$
+
+        <p style="margin:1rem 0 0.5rem;font-weight:600">Scheme: row A · column B</p>
+
+        <div class="steps">
+          <div class="step"><div class="step-body">
+            <strong>Element (1,1) — row 1 × column 1:</strong>
+            \[\underbrace{(1,\;2)}_{\text{row 1 z A}} \cdot \underbrace{\binom{5}{7}}_{\text{column 1 z B}} = 1\cdot5 + 2\cdot7 = 5 + 14 = \mathbf{19}\]
+          </div></div>
+          <div class="step"><div class="step-body">
+            <strong>Element (1,2) — row 1 × column 2:</strong>
+            \[(1,\;2) \cdot \binom{6}{8} = 1\cdot6 + 2\cdot8 = 6 + 16 = \mathbf{22}\]
+          </div></div>
+          <div class="step"><div class="step-body">
+            <strong>Element (2,1) — row 2 × column 1:</strong>
+            \[(3,\;4) \cdot \binom{5}{7} = 3\cdot5 + 4\cdot7 = 15 + 28 = \mathbf{43}\]
+          </div></div>
+          <div class="step"><div class="step-body">
+            <strong>Element (2,2) — row 2 × column 2:</strong>
+            \[(3,\;4) \cdot \binom{6}{8} = 3\cdot6 + 4\cdot8 = 18 + 32 = \mathbf{50}\]
+          </div></div>
+          <div class="step"><div class="step-body">
+            <strong>Final result:</strong>
+            \[AB = \begin{pmatrix}\mathbf{19}&\mathbf{22}\\\mathbf{43}&\mathbf{50}\end{pmatrix}\]
+          </div></div>
+        </div>
+
+        <!-- visual grid -->
+        <div style="margin:1.5rem 0;overflow-x:auto">
+          <table style="border-collapse:separate;border-spacing:4px;font-family:'JetBrains Mono',monospace;font-size:0.85rem;margin:0 auto;width:auto">
+            <thead>
+              <tr>
+                <th style="padding:0.4rem 0.6rem;background:transparent"></th>
+                <th style="padding:0.4rem 0.6rem;background:transparent"></th>
+                <th colspan="2" style="padding:0.4rem 1rem;background:var(--slate);color:var(--paper);border-radius:4px 4px 0 0;text-align:center">Kolumny B</th>
+              </tr>
+              <tr>
+                <th style="padding:0.4rem 0.6rem;background:transparent"></th>
+                <th style="padding:0.4rem 0.6rem;background:transparent"></th>
+                <th style="padding:0.4rem 1rem;background:var(--slate);color:var(--paper);opacity:0.8">kol 1</th>
+                <th style="padding:0.4rem 1rem;background:var(--slate);color:var(--paper);opacity:0.8">kol 2</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th rowspan="2" style="padding:0.4rem 0.6rem;background:var(--rust);color:var(--paper);border-radius:4px 0 0 4px;writing-mode:vertical-rl;transform:rotate(180deg);text-align:center">rowe A</th>
+                <td style="padding:0.4rem 0.8rem;background:var(--rust);color:var(--paper);opacity:0.9;font-size:0.75rem">row 1</td>
+                <td style="padding:0.8rem 1.2rem;background:var(--highlight);border:2px solid var(--rust);text-align:center;font-weight:600">19</td>
+                <td style="padding:0.8rem 1.2rem;background:var(--highlight);border:2px solid var(--slate);text-align:center;font-weight:600">22</td>
+              </tr>
+              <tr>
+                <td style="padding:0.4rem 0.8rem;background:var(--rust);color:var(--paper);opacity:0.9;font-size:0.75rem">row 2</td>
+                <td style="padding:0.8rem 1.2rem;background:var(--highlight);border:2px solid var(--rust);text-align:center;font-weight:600">43</td>
+                <td style="padding:0.8rem 1.2rem;background:var(--highlight);border:2px solid var(--slate);text-align:center;font-weight:600">50</td>
+              </tr>
+            </tbody>
+          </table>
+          <p style="text-align:center;font-size:0.8rem;color:var(--muted);margin-top:0.5rem">Każda komórka = row A (czerwony) · column B (niebieski)</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="worked">
+      <div class="worked-header">Example 2 — Multiplying 2×3 by 3×2 (different sizes)</div>
+      <div class="worked-body">
+        $$A = \begin{pmatrix}1&0&2\\-1&3&1\end{pmatrix}_{2\times3}, \quad B = \begin{pmatrix}3&1\\2&0\\1&4\end{pmatrix}_{3\times2}$$
+        <p>Rozmiary: \((2\times\mathbf{3}) \cdot (\mathbf{3}\times2) = (2\times2)\) — wynik jest macierzą \(2\times2\). ✓</p>
+        <div class="steps">
+          <div class="step"><div class="step-body">
+            <strong>Element (1,1):</strong>
+            \[(1,0,2)\cdot\begin{pmatrix}3\\2\\1\end{pmatrix} = 1\cdot3 + 0\cdot2 + 2\cdot1 = 3+0+2 = \mathbf{5}\]
+          </div></div>
+          <div class="step"><div class="step-body">
+            <strong>Element (1,2):</strong>
+            \[(1,0,2)\cdot\begin{pmatrix}1\\0\\4\end{pmatrix} = 1\cdot1 + 0\cdot0 + 2\cdot4 = 1+0+8 = \mathbf{9}\]
+          </div></div>
+          <div class="step"><div class="step-body">
+            <strong>Element (2,1):</strong>
+            \[(-1,3,1)\cdot\begin{pmatrix}3\\2\\1\end{pmatrix} = -3+6+1 = \mathbf{4}\]
+          </div></div>
+          <div class="step"><div class="step-body">
+            <strong>Element (2,2):</strong>
+            \[(-1,3,1)\cdot\begin{pmatrix}1\\0\\4\end{pmatrix} = -1+0+4 = \mathbf{3}\]
+          </div></div>
+          <div class="step"><div class="step-body">
+            <strong>Result:</strong>
+            \[AB = \begin{pmatrix}5&9\\4&3\end{pmatrix}\]
+          </div></div>
+        </div>
+        <div class="callout rust"><strong>Note:</strong> Matrix multiplication is NOT commutative! Usually \ \(AB \neq BA\).</div>
+      </div>
+    </div>
+
+    <!-- DETERMINANT -->
+    <span class="section-label">Determinant (det) of a 2×2 matrix </span>
+    <p>The determinant is a single number computed from a square matrix. Geometrically: |det| is the area of the parallelogram spanned by the rows of the matrix. If \(\det = 0\), the matrix is <em>singular</em> (non-invertible).</p>
+
+    <div class="math-block">
+      $$\det(A) = \det\begin{pmatrix}a&b\\c&d\end{pmatrix} = ad - bc$$
+    </div>
+
+    <div class="analogy"><p>Diagonal multiplication scheme: <strong>main diagonal</strong> (↘) minus <strong>secondary diagonal</strong> (↗). Top-left × bottom-right, minus top-right × bottom-left.</p></div>
+
+    <div class="worked">
+      <div class="worked-header">Example — 2×2 determinant</div>
+      <div class="worked-body">
+        $$A = \begin{pmatrix}3&2\\1&4\end{pmatrix}$$
+        <div class="steps">
+          <div class="step"><div class="step-body">
+            <strong>Main diagonal (↘):</strong> \(3 \cdot 4 = 12\)
+          </div></div>
+          <div class="step"><div class="step-body">
+            <strong>Secondary diagonal (↗):</strong> \(2 \cdot 1 = 2\)
+          </div></div>
+          <div class="step"><div class="step-body">
+            <strong>Determinant:</strong> \(\det(A) = 12 - 2 = \mathbf{10}\)
+          </div></div>
+        </div>
+        <p style="margin-top:1rem"><strong>Another example:</strong> \(\det\begin{pmatrix}-2&3\\4&-6\end{pmatrix} = (-2)(-6)-(3)(4) = 12-12 = 0\) — singular matrix!</p>
+      </div>
+    </div>
+
+    <!-- TRACE -->
+    <span class="section-label">Trace of a matrix</span>
+    <p>The trace is the sum of elements on the <strong>main diagonal</strong>:</p>
+    <div class="math-block">
+      $$\text{tr}(A) = \text{tr}\begin{pmatrix}a&b\\c&d\end{pmatrix} = a + d$$
+    </div>
+    <div class="callout sage"> <strong>Key property:</strong> Trace = sum of eigenvalues; determinant = product of eigenvalues. These are shortcuts used in the analysis of dynamical system stability.</div>
+
+    <!-- INVERSE -->
+    <span class="section-label">Inverse matrix (2×2)</span>
+    <p>The inverse matrix \(A^{-1}\) satisfies \(A \cdot A^{-1} = I\) (identity matrix). For a \(2\times2\) matrix:</p>
+
+    <div class="math-block">
+      $$A^{-1} = \frac{1}{\det(A)} \begin{pmatrix}d & -b \\ -c & a\end{pmatrix}$$
+    </div>
+
+    <p>Recipe: swap diagonal elements, change signs of off-diagonal elements, divide by the determinant.</p>
+
+    <div class="worked">
+      <div class="worked-header">Example — Inverse matrix step by step</div>
+      <div class="worked-body">
+        $$A = \begin{pmatrix}4&7\\2&6\end{pmatrix}$$
+        <div class="steps">
+          <div class="step"><div class="step-body">
+            <strong>Compute determinant:</strong>
+            \[\det(A) = 4\cdot6 - 7\cdot2 = 24 - 14 = 10\]
+          </div></div>
+          <div class="step"><div class="step-body">
+            <strong>Swap diagonal elements and change signs:</strong>
+            \[\begin{pmatrix}4&7\\2&6\end{pmatrix} \xrightarrow{\text{swap }a,d;\ \text{negate }b,c} \begin{pmatrix}6&-7\\-2&4\end{pmatrix}\]
+          </div></div>
+          <div class="step"><div class="step-body">
+            <strong>Divide by determinant:</strong>
+            \[A^{-1} = \frac{1}{10}\begin{pmatrix}6&-7\\-2&4\end{pmatrix} = \begin{pmatrix}0.6&-0.7\\-0.2&0.4\end{pmatrix}\]
+          </div></div>
+          <div class="ste"><dpiv class="step-body">
+            <strong>Verification \(A \cdot A^{-1} = I\):</strong>
+            \[\begin{pmatrix}4&7\\2&6\end{pmatrix}\begin{pmatrix}0.6&-0.7\\-0.2&0.4\end{pmatrix} = \begin{pmatrix}4(0.6)+7(-0.2)&4(-0.7)+7(0.4)\\2(0.6)+6(-0.2)&2(-0.7)+6(0.4)\end{pmatrix}\]
+            \[= \begin{pmatrix}2.4-1.4 & -2.8+2.8 \\ 1.2-1.2 & -1.4+2.4\end{pmatrix} = \begin{pmatrix}1&0\\0&1\end{pmatrix} = I \quad \checkmark\]
+          </div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUMMARY TABLE -->
+    <span class="section-label">Summary of operations</span>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Operation</th><th>Condition</th><th>Method</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Addition \(A+B\)</strong></td><td>Same dimensions</td><td>Add each element separately</td></tr>
+          <tr><td><strong>Scalar multiplication \(cA\)</strong></td><td>Always possible</td><td>Multiply each element by \(c\)</td></tr>
+          <tr><td><strong>Multiplication \(AB\)</strong></td><td>Columns of A = rows of B</td><td>Row A · column B for each position</td></tr>
+          <tr><td><strong>Determinant \(\det(A)\)</strong></td><td>Square matrix</td><td>\(ad - bc\) for 2×2</td></tr>
+          <tr><td><strong>Trace \(\text{tr}(A)\)</strong></td><td>Square matrix</td><td>Sum of diagonal elements</td></tr>
+          <tr><td><strong>Inverse matrix \(A^{-1}\)</strong></td><td>\(\det(A) \neq 0\)</td><td>Swap diagonal, negate rest, divide by det</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- 4. FOC -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <section class="concept" id="foc">
+    <div class="concept-header">
+      <div class="concept-num">4</div>
+      <div class="concept-title-group">
+        <span class="concept-tag">Optimisation</span>
+        <h2>First-Order Conditions (FOC)</h2>
+      </div>
+    </div>
+
+    <span class="section-label">What is it?</span>
+    <p>A <strong>First-Order Condition</strong> (FOC) means: set the derivative equal to zero. It finds the candidates for maxima and minima — points where the slope of the function is flat.</p>
+
+    <div class="analogy"><p>Walking up a hill: slope positive means you can go higher; slope negative means you have passed the peak; slope zero means you might be at the top. The FOC finds where the slope is zero.</p></div>
+
+    <span class="section-label">Single-variable FOC</span>
+    <div class="math-block">$$f'(x) = 0$$</div>
+
+    <span class="section-label">Multi-variable FOC</span>
+    <p>When a function depends on several variables, set <em>every</em> partial derivative to zero simultaneously:</p>
+    <div class="math-block">$$\frac{\partial f}{\partial x_1} = 0, \quad \frac{\partial f}{\partial x_2} = 0, \quad \ldots, \quad \frac{\partial f}{\partial x_n} = 0$$</div>
+    <p>This gives \(n\) equations in \(n\) unknowns — solve the system.</p>
+
+    <div class="callout rust"><strong>Warning — FOC is necessary but not sufficient.</strong> A zero slope could be a maximum, minimum, or saddle point. You must also check the second-order conditions (the Hessian) to determine which one.</div>
+
+    <div class="worked">
+      <div class="worked-header">Worked Example — Find the maximum of a profit function</div>
+      <div class="worked-body">
+        <p>Maximise \(\pi(q) = -2q^2 + 12q - 5\)</p>
+        <div class="steps">
+          <div class="step"><div class="step-body"><strong>Differentiate:</strong> \(\pi'(q) = -4q + 12\)</div></div>
+          <div class="step"><div class="step-body"><strong>Set equal to zero:</strong> \(-4q + 12 = 0 \implies q^* = 3\)</div></div>
+          <div class="step"><div class="step-body"><strong>Check SOC:</strong> \(\pi''(q) = -4 < 0\) → curvature is downward → confirmed <strong>maximum</strong></div></div>
+          <div class="step"><div class="step-body"><strong>Evaluate:</strong> \(\pi(3) = -18 + 36 - 5 = 13\)</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="worked">
+      <div class="worked-header">Worked Example — Two-variable FOC</div>
+      <div class="worked-body">
+        <p>Maximise \(f(x,y) = -x^2 + 2xy - 2y^2 + 4x\)</p>
+        <div class="steps">
+          <div class="step"><div class="step-body"><strong>FOC w.r.t. \(x\):</strong> \(\partial f/\partial x = -2x + 2y + 4 = 0\)</div></div>
+          <div class="step"><div class="step-body"><strong>FOC w.r.t. \(y\):</strong> \(\partial f/\partial y = 2x - 4y = 0\)</div></div>
+          <div class="step"><div class="step-body"><strong>From equation 2:</strong> \(x = 2y\). Substitute into equation 1: \(-4y + 2y + 4 = 0 \implies y = 2\), \(x = 4\).</div></div>
+          <div class="step"><div class="step-body"><strong>Critical point:</strong> \((x^*, y^*) = (4, 2)\)</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- 5. LAGRANGIAN -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <section class="concept" id="lagrangian">
+    <div class="concept-header">
+      <div class="concept-num">5</div>
+      <div class="concept-title-group">
+        <span class="concept-tag">Optimisation</span>
+        <h2>The Lagrangian Method</h2>
+      </div>
+    </div>
+
+    <span class="section-label">What is it?</span>
+    <p>The Lagrangian is a technique for optimising a function <strong>subject to a constraint</strong>. Instead of solving a constrained problem (hard), we convert it into an unconstrained problem (easier) by embedding the constraint into a new function.</p>
+
+    <div class="analogy"><p>You want to maximise utility but have a fixed budget. You can't just maximise freely — you must stay on the budget line. The Lagrangian adds a "penalty" for violating the constraint, then lets you optimise freely.</p></div>
+
+    <span class="section-label">The formula</span>
+    <div class="math-block">$$\mathcal{L}(x_1, x_2, \lambda) = \underbrace{f(x_1, x_2)}_{\text{objective}} - \lambda \cdot \underbrace{g(x_1, x_2)}_{\text{constraint} = 0}$$</div>
+
+    <p>\(\lambda\) (lambda) is called the <strong>Lagrange multiplier</strong>. It is the shadow price of the constraint — it tells you how much the optimal objective value improves if you relax the constraint by one unit.</p>
+
+    <span class="section-label">The FOCs of the Lagrangian</span>
+    <div class="math-block">$$\frac{\partial \mathcal{L}}{\partial x_i} = 0 \quad \text{for each } i \qquad \text{and} \qquad \frac{\partial \mathcal{L}}{\partial \lambda} = 0$$</div>
+    <p>The last condition simply recovers the constraint \(g = 0\).</p>
+
+    <div class="worked">
+      <div class="worked-header">Worked Example — Utility maximisation with budget constraint</div>
+      <div class="worked-body">
+        <p>Maximise \(U = x_1^{1/2} x_2^{1/2}\) subject to \(p_1 x_1 + p_2 x_2 = w\)</p>
+        <div class="steps">
+          <div class="step"><div class="step-body"><strong>Write the Lagrangian:</strong>
+            \[\mathcal{L} = \tfrac{1}{2}\ln x_1 + \tfrac{1}{2}\ln x_2 - \lambda(p_1 x_1 + p_2 x_2 - w)\]
+            (We maximise \(\ln U\) — same optimum, cleaner calculus.)
+          </div></div>
+          <div class="step"><div class="step-body"><strong>FOC w.r.t. \(x_1\):</strong>
+            \[\frac{\partial \mathcal{L}}{\partial x_1} = \frac{1}{2x_1} - \lambda p_1 = 0 \implies \lambda = \frac{1}{2p_1 x_1}\]
+          </div></div>
+          <div class="step"><div class="step-body"><strong>FOC w.r.t. \(x_2\):</strong>
+            \[\frac{\partial \mathcal{L}}{\partial x_2} = \frac{1}{2x_2} - \lambda p_2 = 0 \implies \lambda = \frac{1}{2p_2 x_2}\]
+          </div></div>
+          <div class="step"><div class="step-body"><strong>Equate the two expressions for \(\lambda\):</strong>
+            \[\frac{1}{2p_1 x_1} = \frac{1}{2p_2 x_2} \implies p_1 x_1 = p_2 x_2\]
+          </div></div>
+          <div class="step"><div class="step-body"><strong>FOC w.r.t. \(\lambda\) (= constraint):</strong>
+            \[p_1 x_1 + p_2 x_2 = w\]
+            Substituting \(p_1 x_1 = p_2 x_2\): \(2p_1 x_1 = w \implies x_1^* = \dfrac{w}{2p_1}\), \(x_2^* = \dfrac{w}{2p_2}\)
+          </div></div>
+        </div>
+        <div class="callout"><strong>Result:</strong> Spend half your income on each good — the exponent (½) becomes the expenditure share. This is the Cobb-Douglas expenditure-share rule.</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- 6. JACOBIAN -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <section class="concept" id="jacobian">
+    <div class="concept-header">
+      <div class="concept-num">6</div>
+      <div class="concept-title-group">
+        <span class="concept-tag">Systems</span>
+        <h2>The Jacobian Matrix</h2>
+      </div>
+    </div>
+
+    <span class="section-label">What is it?</span>
+    <p>The Jacobian is the matrix of all first-order partial derivatives of a <em>system</em> of functions. Think of it as the "derivative of a system" — just as \(f'(x)\) tells you the slope of one function at a point, the Jacobian tells you how every output of a system responds to every input.</p>
+
+    <div class="analogy"><p>A thermostat controls both temperature and humidity. The Jacobian tells you: if I turn up the temperature setting slightly, how much does actual temperature change? And how much does humidity change? It captures all cross-effects in one matrix.</p></div>
+
+    <span class="section-label">The formula</span>
+    <p>For a system with 2 equations \(f(x,y)\) and \(g(x,y)\):</p>
+    <div class="math-block">$$J = \begin{pmatrix} \partial f/\partial x & \partial f/\partial y \\ \partial g/\partial x & \partial g/\partial y \end{pmatrix}$$</div>
+    <p>Row \(i\) = derivatives of equation \(i\). Column \(j\) = derivatives w.r.t. variable \(j\).</p>
+
+    <div class="worked">
+      <div class="worked-header">Worked Example — Build the Jacobian step by step</div>
+      <div class="worked-body">
+        <p>System: \(\dot{x} = f(x,y) = x^2 + y^2 - 9\) and \(\dot{y} = g(x,y) = y - x^3\)</p>
+        <div class="steps">
+          <div class="step"><div class="step-body"><strong>Compute all four partial derivatives:</strong>
+            \[\frac{\partial f}{\partial x} = 2x \quad \frac{\partial f}{\partial y} = 2y \quad \frac{\partial g}{\partial x} = -3x^2 \quad \frac{\partial g}{\partial y} = 1\]
+          </div></div>
+          <div class="step"><div class="step-body"><strong>Assemble into the matrix:</strong>
+            \[J(x,y) = \begin{pmatrix}2x & 2y \\ -3x^2 & 1\end{pmatrix}\]
+          </div></div>
+          <div class="step"><div class="step-body"><strong>Evaluate at a point, e.g. \((1, 2)\):</strong>
+            \[J(1,2) = \begin{pmatrix}2 & 4 \\ -3 & 1\end{pmatrix}\]
+          </div></div>
+        </div>
+      </div>
+    </div>
+
+    <span class="section-label">Why it matters — stability analysis</span>
+    <p>Evaluate the Jacobian at an equilibrium \((x^*, y^*)\). Then compute the <strong>trace</strong> and <strong>determinant</strong> of this matrix. These two numbers classify the equilibrium:</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Trace</th><th>Determinant</th><th>Discriminant \(\Delta = \text{tr}^2 - 4\det\)</th><th>Type</th></tr></thead>
+        <tbody>
+          <tr><td>\(< 0\)</td><td>\(> 0\)</td><td>\(\geq 0\)</td><td><strong>Stable node</strong></td></tr>
+          <tr><td>\(< 0\)</td><td>\(> 0\)</td><td>\(< 0\)</td><td><strong>Stable spiral</strong></td></tr>
+          <tr><td>\(> 0\)</td><td>\(> 0\)</td><td>any</td><td><strong>Unstable</strong></td></tr>
+          <tr><td>any</td><td>\(< 0\)</td><td>—</td><td><strong>Saddle point</strong></td></tr>
+          <tr><td>\(= 0\)</td><td>\(> 0\)</td><td>\(< 0\)</td><td><strong>Centre</strong> (neutral)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout sage"><strong>Shortcut:</strong> You do not need to find the eigenvalues explicitly. Trace and determinant give you everything for 2×2 systems.</div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- 7. HESSIAN -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <section class="concept" id="hessian">
+    <div class="concept-header">
+      <div class="concept-num">7</div>
+      <div class="concept-title-group">
+        <span class="concept-tag">Optimisation</span>
+        <h2>The Hessian Matrix</h2>
+      </div>
+    </div>
+
+    <span class="section-label">What is it?</span>
+    <p>The Hessian is the matrix of all <strong>second-order partial derivatives</strong>. While the Jacobian captures slopes (first derivatives), the Hessian captures <strong>curvature</strong> — whether the function is shaped like a hill, a bowl, or a saddle.</p>
+
+    <div class="analogy"><p>Stand on a mountain. The Jacobian tells you which direction is steeper. The Hessian tells you whether you are standing on a peak (curves down in all directions), a valley (curves up in all directions), or a mountain pass / saddle (curves up one way, down another).</p></div>
+
+    <span class="section-label">The formula</span>
+    <div class="math-block">$$H = \begin{pmatrix} f_{x_1 x_1} & f_{x_1 x_2} \\ f_{x_2 x_1} & f_{x_2 x_2} \end{pmatrix} = \begin{pmatrix} \partial^2 f/\partial x_1^2 & \partial^2 f/\partial x_1 \partial x_2 \\ \partial^2 f/\partial x_2 \partial x_1 & \partial^2 f/\partial x_2^2 \end{pmatrix}$$</div>
+
+    <span class="section-label">Classification rules (at a critical point)</span>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>\(H_{11}\)</th><th>\(\det(H)\)</th><th>Conclusion</th></tr></thead>
+        <tbody>
+          <tr><td>\(< 0\)</td><td>\(> 0\)</td><td><strong>Local maximum</strong> — negative definite</td></tr>
+          <tr><td>\(> 0\)</td><td>\(> 0\)</td><td><strong>Local minimum</strong> — positive definite</td></tr>
+          <tr><td>any</td><td>\(< 0\)</td><td><strong>Saddle point</strong> — indefinite</td></tr>
+          <tr><td>any</td><td>\(= 0\)</td><td>Inconclusive — higher-order test needed</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="worked">
+      <div class="worked-header">Worked Example — Classify a critical point</div>
+      <div class="worked-body">
+        <p>Classify \((x^*, y^*) = (4, 2)\) for \(f(x,y) = -x^2 + 2xy - 2y^2 + 4x\)</p>
+        <div class="steps">
+          <div class="step"><div class="step-body"><strong>Compute all second partials:</strong>
+            \[f_{xx} = -2 \quad f_{yy} = -4 \quad f_{xy} = 2\]
+          </div></div>
+          <div class="step"><div class="step-body"><strong>Assemble the Hessian:</strong>
+            \[H = \begin{pmatrix}-2 & 2 \\ 2 & -4\end{pmatrix}\]
+          </div></div>
+          <div class="step"><div class="step-body"><strong>Check \(H_{11}\):</strong> \(-2 < 0\) ✓</div></div>
+          <div class="step"><div class="step-body"><strong>Compute \(\det(H)\):</strong>
+            \[\det = (-2)(-4) - (2)(2) = 8 - 4 = 4 > 0\] ✓
+          </div></div>
+          <div class="step"><div class="step-body"><strong>Conclusion:</strong> \(H_{11} < 0\) and \(\det(H) > 0\) → <strong>Local maximum</strong> at \((4, 2)\).</div></div>
+        </div>
+      </div>
+    </div>
+
+    <span class="section-label">Bordered Hessian (for constrained problems)</span>
+    <p>When optimising with a constraint, the regular Hessian is not enough — you need to check curvature only in the directions <em>allowed by the constraint</em>. The Bordered Hessian encodes this:</p>
+    <div class="math-block">$$\bar{H} = \begin{pmatrix} 0 & g_{x_1} & g_{x_2} \\ g_{x_1} & \mathcal{L}_{11} & \mathcal{L}_{12} \\ g_{x_2} & \mathcal{L}_{21} & \mathcal{L}_{22} \end{pmatrix}$$</div>
+    <p>where \(g\) is the constraint and \(\mathcal{L}_{ij}\) are second partials of the Lagrangian. For a <strong>maximum</strong>: \(\det(\bar{H}) > 0\). For a <strong>minimum</strong>: \(\det(\bar{H}) < 0\).</p>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- 8. EIGENVALUES -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <section class="concept" id="eigenvalues">
+    <div class="concept-header">
+      <div class="concept-num">8</div>
+      <div class="concept-title-group">
+        <span class="concept-tag">Linear Algebra</span>
+        <h2>Eigenvalues &amp; Eigenvectors</h2>
+      </div>
+    </div>
+
+    <span class="section-label">What is it?</span>
+    <p>An <strong>eigenvector</strong> of a matrix \(A\) is a special direction that the matrix only <em>stretches</em> — never rotates. The <strong>eigenvalue</strong> \(\lambda\) is how much it gets stretched.</p>
+
+    <div class="math-block">$$A \mathbf{v} = \lambda \mathbf{v}$$</div>
+
+    <div class="analogy"><p>A rubber band stretched along one axis: points along that axis move outward (stretched) but do not change direction. That axis direction is an eigenvector; the stretching factor is the eigenvalue.</p></div>
+
+    <span class="section-label">How to find eigenvalues — step by step</span>
+
+    <div class="steps">
+      <div class="step"><div class="step-body"><strong>Form \(A - \lambda I\):</strong> Subtract \(\lambda\) from each diagonal entry.
+        \[\begin{pmatrix}a - \lambda & b \\ c & d - \lambda\end{pmatrix}\]
+      </div></div>
+      <div class="step"><div class="step-body"><strong>Set the determinant to zero (characteristic equation):</strong>
+        \[\det(A - \lambda I) = (a - \lambda)(d - \lambda) - bc = 0\]
+      </div></div>
+      <div class="step"><div class="step-body"><strong>Expand and solve for \(\lambda\):</strong>
+        \[\lambda^2 - (a+d)\lambda + (ad - bc) = 0 \quad \Rightarrow \quad \lambda^2 - \text{tr}(A)\,\lambda + \det(A) = 0\]
+        Use the quadratic formula or factorise.
+      </div></div>
+      <div class="step"><div class="step-body"><strong>For each eigenvalue, find the eigenvector:</strong> Substitute \(\lambda\) back into \((A - \lambda I)\mathbf{v} = 0\) and solve.</div></div>
+    </div>
+
+    <div class="worked">
+      <div class="worked-header">Worked Example — Full eigenvalue calculation</div>
+      <div class="worked-body">
+        $$A = \begin{pmatrix}1/2 & 3 \\ 3/4 & 1/2\end{pmatrix}$$
+        <div class="steps">
+          <div class="step"><div class="step-body"><strong>Characteristic equation:</strong>
+            \[\det\begin{pmatrix}1/2 - \lambda & 3 \\ 3/4 & 1/2 - \lambda\end{pmatrix} = \left(\tfrac{1}{2}-\lambda\right)^2 - \tfrac{9}{4} = 0\]
+          </div></div>
+          <div class="step"><div class="step-body"><strong>Expand:</strong>
+            \[\lambda^2 - \lambda + \tfrac{1}{4} - \tfrac{9}{4} = \lambda^2 - \lambda - 2 = 0\]
+          </div></div>
+          <div class="step"><div class="step-body"><strong>Factorise:</strong>
+            \[(\lambda - 2)(\lambda + 1) = 0 \implies \lambda_1 = 2, \quad \lambda_2 = -1\]
+          </div></div>
+          <div class="step"><div class="step-body"><strong>Eigenvector for \(\lambda_1 = 2\):</strong> Solve \((A - 2I)\mathbf{v} = 0\):
+            \[\begin{pmatrix}-3/2 & 3 \\ 3/4 & -3/2\end{pmatrix}\mathbf{v} = 0 \implies v_1 = 2v_2 \implies \mathbf{v}_1 = \begin{pmatrix}2\\1\end{pmatrix}\]
+          </div></div>
+          <div class="step"><div class="step-body"><strong>Eigenvector for \(\lambda_2 = -1\):</strong>
+            \[\begin{pmatrix}3/2 & 3 \\ 3/4 & 3/2\end{pmatrix}\mathbf{v} = 0 \implies v_1 = -2v_2 \implies \mathbf{v}_2 = \begin{pmatrix}-2\\1\end{pmatrix}\]
+          </div></div>
+        </div>
+      </div>
+    </div>
+
+    <span class="section-label">Eigenvalues and stability</span>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Eigenvalue type</th><th>Behaviour</th><th>Stability</th></tr></thead>
+        <tbody>
+          <tr><td>Both real, \(< 0\)</td><td>Perturbations decay monotonically</td><td>Stable node</td></tr>
+          <tr><td>Both real, \(> 0\)</td><td>Perturbations grow</td><td>Unstable node</td></tr>
+          <tr><td>One positive, one negative</td><td>One direction grows, one decays</td><td>Saddle</td></tr>
+          <tr><td>Complex, \(\text{Re} < 0\)</td><td>Decaying oscillations</td><td>Stable spiral</td></tr>
+          <tr><td>Complex, \(\text{Re} > 0\)</td><td>Growing oscillations</td><td>Unstable spiral</td></tr>
+          <tr><td>Purely imaginary</td><td>Neutral oscillations (circles)</td><td>Centre</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- 9. ODEs -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <section class="concept" id="ode">
+    <div class="concept-header">
+      <div class="concept-num">9</div>
+      <div class="concept-title-group">
+        <span class="concept-tag">Dynamics</span>
+        <h2>Ordinary Differential Equations</h2>
+      </div>
+    </div>
+
+    <span class="section-label">What is it?</span>
+    <p>An ODE is an equation that relates a function to its own derivatives. It models situations where <strong>the rate of change of something depends on its current state</strong>.</p>
+
+    <div class="analogy"><p>Bank account: the more money you have, the more interest accrues each day. Your balance grows at a rate proportional to itself — that is \(\dot{A} = rA\), an ODE.</p></div>
+
+    <span class="section-label">Key vocabulary</span>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Term</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td><strong>General solution</strong></td><td>All possible solutions — contains free constants \(C_1, C_2\)</td></tr>
+          <tr><td><strong>Particular solution</strong></td><td>One specific solution — pin down constants using initial conditions</td></tr>
+          <tr><td><strong>Initial condition</strong></td><td>Known value at a specific time, e.g. \(x(0) = 5\)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <span class="section-label">Type 1 — Separable ODE</span>
+    <p>When the equation can be written as \(\dot{x} = f(t) \cdot g(x)\), separate variables and integrate:</p>
+    <div class="math-block">$$\frac{dx}{g(x)} = f(t)\,dt \quad \Rightarrow \quad \int \frac{dx}{g(x)} = \int f(t)\,dt$$</div>
+
+    <div class="worked">
+      <div class="worked-header">Worked Example — Separable ODE</div>
+      <div class="worked-body">
+        <p>Solve \(\dot{x} = kx\) (exponential growth), with \(x(0) = x_0\)</p>
+        <div class="steps">
+          <div class="step"><div class="step-body"><strong>Separate:</strong> \(\dfrac{dx}{x} = k\,dt\)</div></div>
+          <div class="step"><div class="step-body"><strong>Integrate both sides:</strong> \(\ln|x| = kt + C\)</div></div>
+          <div class="step"><div class="step-body"><strong>Exponentiate:</strong> \(x(t) = Ae^{kt}\) where \(A = e^C\)</div></div>
+          <div class="step"><div class="step-body"><strong>Apply IC \(x(0) = x_0\):</strong> \(x_0 = Ae^0 = A\), so \(A = x_0\)</div></div>
+          <div class="step"><div class="step-body"><strong>Particular solution:</strong> \(x(t) = x_0 e^{kt}\)</div></div>
+        </div>
+      </div>
+    </div>
+
+    <span class="section-label">Type 2 — Linear ODE system</span>
+    <p>A linear system has the form \(\dot{\mathbf{x}} = A\mathbf{x}\) where \(A\) is a constant matrix. The solution is built from eigenvalues and eigenvectors of \(A\):</p>
+    <div class="math-block">$$\mathbf{x}(t) = C_1 e^{\lambda_1 t} \mathbf{v}_1 + C_2 e^{\lambda_2 t} \mathbf{v}_2$$</div>
+    <p>where \(\lambda_1, \lambda_2\) are eigenvalues and \(\mathbf{v}_1, \mathbf{v}_2\) are corresponding eigenvectors.</p>
+
+    <div class="worked">
+      <div class="worked-header">Worked Example — 2×2 Linear ODE System</div>
+      <div class="worked-body">
+        <p>System: \(\dot{x} = \frac{1}{2}x + 3y\), \(\dot{y} = \frac{3}{4}x + \frac{1}{2}y\), with \(x(0)=1\), \(y(0)=1\)</p>
+        <div class="steps">
+          <div class="step"><div class="step-body"><strong>Matrix form:</strong>
+            \[A = \begin{pmatrix}1/2 & 3 \\ 3/4 & 1/2\end{pmatrix}\]
+          </div></div>
+          <div class="step"><div class="step-body"><strong>Eigenvalues (from previous example):</strong> \(\lambda_1 = 2\), \(\lambda_2 = -1\), eigenvectors \(\mathbf{v}_1 = \binom{2}{1}\), \(\mathbf{v}_2 = \binom{-2}{1}\)</div></div>
+          <div class="step"><div class="step-body"><strong>General solution:</strong>
+            \[\begin{pmatrix}x(t)\\y(t)\end{pmatrix} = C_1 e^{2t}\begin{pmatrix}2\\1\end{pmatrix} + C_2 e^{-t}\begin{pmatrix}-2\\1\end{pmatrix}\]
+          </div></div>
+          <div class="step"><div class="step-body"><strong>Apply IC at \(t=0\):</strong>
+            \[x(0) = 2C_1 - 2C_2 = 1\]
+            \[y(0) = C_1 + C_2 = 1\]
+          </div></div>
+          <div class="step"><div class="step-body"><strong>Solve for constants:</strong> From the second equation \(C_1 = 1 - C_2\). Substitute: \(2(1-C_2) - 2C_2 = 1 \implies C_2 = \frac{1}{4}\), \(C_1 = \frac{3}{4}\)</div></div>
+          <div class="step"><div class="step-body"><strong>Particular solution:</strong>
+            \[x(t) = \tfrac{3}{4}e^{2t} \cdot 2 - \tfrac{1}{4}e^{-t} \cdot 2 = \tfrac{3}{2}e^{2t} - \tfrac{1}{2}e^{-t}\]
+            \[y(t) = \tfrac{3}{4}e^{2t} + \tfrac{1}{4}e^{-t}\]
+          </div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- 10. STABILITY -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <section class="concept" id="stability">
+    <div class="concept-header">
+      <div class="concept-num">10</div>
+      <div class="concept-title-group">
+        <span class="concept-tag">Dynamics</span>
+        <h2>Equilibrium &amp; Stability</h2>
+      </div>
+    </div>
+
+    <span class="section-label">What is it?</span>
+    <p>An <strong>equilibrium</strong> is a state where nothing changes: \(\dot{x} = 0\) and \(\dot{y} = 0\). <strong>Stability</strong> asks: if the system starts near an equilibrium and gets a small push, does it return or drift away?</p>
+
+    <div class="analogy"><p>A ball in a bowl rolls back when pushed (stable). A ball on top of a hill rolls away when pushed (unstable). A ball on a mountain pass rolls back in one direction but away in another (saddle).</p></div>
+
+    <span class="section-label">The full workflow — step by step</span>
+
+    <div class="steps">
+      <div class="step"><div class="step-body"><strong>Find equilibria:</strong> Set \(\dot{x} = f(x,y) = 0\) and \(\dot{y} = g(x,y) = 0\) simultaneously and solve.</div></div>
+      <div class="step"><div class="step-body"><strong>Compute the Jacobian symbolically:</strong>
+        \[J(x,y) = \begin{pmatrix}\partial f/\partial x & \partial f/\partial y \\ \partial g/\partial x & \partial g/\partial y\end{pmatrix}\]
+      </div></div>
+      <div class="step"><div class="step-body"><strong>Evaluate \(J\) at each equilibrium \((x^*, y^*)\):</strong> Substitute the equilibrium values into \(J\).</div></div>
+      <div class="step"><div class="step-body"><strong>Compute trace and determinant</strong> of the evaluated Jacobian.</div></div>
+      <div class="step"><div class="step-body"><strong>Apply the classification table.</strong></div></div>
+    </div>
+
+    <div class="worked">
+      <div class="worked-header">Worked Example — Full stability analysis</div>
+      <div class="worked-body">
+        <p>System: \(\dot{x} = x^2 + y^2 - 4\), \(\dot{y} = y - x^2\)</p>
+        <div class="steps">
+          <div class="step"><div class="step-body"><strong>Find equilibria:</strong> \(y = x^2\) and \(x^2 + x^4 = 4\). Setting \(u = x^2\): \(u^2 + u - 4 = 0 \implies u = \frac{-1 + \sqrt{17}}{2} \approx 1.56\). So \(x \approx \pm 1.25\), \(y \approx 1.56\).</div></div>
+          <div class="step"><div class="step-body"><strong>Jacobian:</strong>
+            \[J = \begin{pmatrix}2x & 2y \\ -2x & 1\end{pmatrix}\]
+          </div></div>
+          <div class="step"><div class="step-body"><strong>At \((1.25, 1.56)\):</strong>
+            \[J^* = \begin{pmatrix}2.5 & 3.12 \\ -2.5 & 1\end{pmatrix}\]
+            \[\text{tr} = 3.5 > 0, \quad \det = 2.5 + 7.8 = 10.3 > 0\]
+            → <strong>Unstable</strong> (trace positive)
+          </div></div>
+          <div class="step"><div class="step-body"><strong>At \((-1.25, 1.56)\):</strong>
+            \[J^* = \begin{pmatrix}-2.5 & 3.12 \\ 2.5 & 1\end{pmatrix}\]
+            \[\text{tr} = -1.5 < 0, \quad \det = -2.5 - 7.8 = -10.3 < 0\]
+            → <strong>Saddle point</strong> (det negative)
+          </div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout slate"><strong>Economic meaning:</strong> A stable equilibrium is a price/quantity the market naturally returns to after a shock. An unstable one is a tipping point — once disturbed, the system leaves and never returns. A saddle means only very special initial conditions lead to the equilibrium.</div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- 11. LIMITS -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <section class="concept" id="limits">
+    <div class="concept-header">
+      <div class="concept-num">11</div>
+      <div class="concept-title-group">
+        <span class="concept-tag">Analysis</span>
+        <h2>Limits at Infinity</h2>
+      </div>
+    </div>
+
+    <span class="section-label">What is it?</span>
+    <p>\(\lim_{t \to \infty} f(t) = L\) means: as \(t\) grows without bound, \(f(t)\) gets closer and closer to \(L\).</p>
+
+    <span class="section-label">Comparing exponentials</span>
+    <p>The key question for ODE solutions: which term dominates as \(t \to \infty\)?</p>
+
+    <div class="callout"><strong>The rule:</strong> Among exponential terms \(e^{at}\), the one with the <em>largest</em> exponent dominates. All others become negligible in comparison.</div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Expression as \(t\to\infty\)</th><th>Result</th><th>Reason</th></tr></thead>
+        <tbody>
+          <tr><td>\(e^{2t}\)</td><td>\(\to +\infty\)</td><td>Grows without bound</td></tr>
+          <tr><td>\(e^{-t}\)</td><td>\(\to 0\)</td><td>Decays to zero</td></tr>
+          <tr><td>\(e^{2t} / e^{-t} = e^{3t}\)</td><td>\(\to +\infty\)</td><td>\(e^{2t}\) wins</td></tr>
+          <tr><td>\(e^{-2t} / e^{-t} = e^{-t}\)</td><td>\(\to 0\)</td><td>\(e^{-t}\) is slower decay, wins, so ratio \(\to 0\)</td></tr>
+          <tr><td>\(\dfrac{C_1 e^{2t}}{C_1 e^{2t} + C_2 e^{-t}}\)</td><td>\(\to 1\)</td><td>Divide top and bottom by \(e^{2t}\); \(e^{-3t} \to 0\)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="worked">
+      <div class="worked-header">Worked Example — Long-run ratio from an ODE solution</div>
+      <div class="worked-body">
+        <p>From the ODE system earlier, with IC \((1,1)\) giving \(C_1 = 3/4\), \(C_2 = 1/4\):</p>
+        $$x(t) = \tfrac{3}{2}e^{2t} - \tfrac{1}{2}e^{-t}, \qquad y(t) = \tfrac{3}{4}e^{2t} + \tfrac{1}{4}e^{-t}$$
+        <div class="steps">
+          <div class="step"><div class="step-body"><strong>Form the ratio:</strong>
+            \[\frac{x(t)}{y(t)} = \frac{\frac{3}{2}e^{2t} - \frac{1}{2}e^{-t}}{\frac{3}{4}e^{2t} + \frac{1}{4}e^{-t}}\]
+          </div></div>
+          <div class="step"><div class="step-body"><strong>Divide numerator and denominator by \(e^{2t}\):</strong>
+            \[\frac{x}{y} = \frac{\frac{3}{2} - \frac{1}{2}e^{-3t}}{\frac{3}{4} + \frac{1}{4}e^{-3t}}\]
+          </div></div>
+          <div class="step"><div class="step-body"><strong>Take \(t \to \infty\):</strong> \(e^{-3t} \to 0\), so
+            \[\frac{x}{y} \to \frac{3/2}{3/4} = 2\]
+          </div></div>
+        </div>
+        <div class="callout sage"><strong>Intuition:</strong> The long-run ratio equals the ratio of the components of the dominant eigenvector (\(\mathbf{v}_1 = (2, 1)\), ratio \(= 2/1 = 2\)).</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- 12. MARSHALLIAN DEMAND -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <section class="concept" id="marshallian">
+    <div class="concept-header">
+      <div class="concept-num">12</div>
+      <div class="concept-title-group">
+        <span class="concept-tag">Economics</span>
+        <h2>Marshallian Demand</h2>
+      </div>
+    </div>
+
+    <span class="section-label">What is it?</span>
+    <p>Marshallian demand answers: <em>"How much of each good does a rational, utility-maximising consumer buy, given prices and income?"</em></p>
+    <p>It is the solution to the consumer's optimisation problem:</p>
+    <div class="math-block">$$\max_{x_1,\ldots,x_n} U(x_1,\ldots,x_n) \quad \text{subject to} \quad \sum_i p_i x_i = w$$</div>
+
+    <span class="section-label">The bang-for-buck principle</span>
+    <p>At the optimum, every good gives the same <strong>marginal utility per dollar spent</strong>:</p>
+    <div class="math-block">$$\frac{MU_1}{p_1} = \frac{MU_2}{p_2} = \cdots = \lambda$$</div>
+    <p>If good 1 gave more utility per dollar than good 2, you should buy more of good 1 (and less of 2) until the rates equalise.</p>
+
+    <span class="section-label">The Cobb-Douglas result</span>
+    <p>For \(U = x_1^{\alpha_1} x_2^{\alpha_2} \cdots x_n^{\alpha_n}\) with \(\sum \alpha_i = 1\):</p>
+    <div class="math-block">$$\boxed{x_i^* = \frac{\alpha_i \cdot w}{p_i}}$$</div>
+    <p>Spend fraction \(\alpha_i\) of income on good \(i\), regardless of other prices. This is the <em>expenditure-share rule</em> — unique to Cobb-Douglas.</p>
+
+    <div class="worked">
+      <div class="worked-header">Worked Example — 3-Good Marshallian Demand</div>
+      <div class="worked-body">
+        <p>Maximise \(U = x_1^{1/2} x_2^{1/3} x_3^{1/6}\) subject to \(p_1 x_1 + p_2 x_2 + p_3 x_3 = w\)</p>
+        <div class="steps">
+          <div class="step"><div class="step-body"><strong>Write the log-Lagrangian:</strong>
+            \[\mathcal{L} = \tfrac{1}{2}\ln x_1 + \tfrac{1}{3}\ln x_2 + \tfrac{1}{6}\ln x_3 - \lambda(p_1 x_1 + p_2 x_2 + p_3 x_3 - w)\]
+          </div></div>
+          <div class="step"><div class="step-body"><strong>FOC for \(x_1\):</strong>
+            \[\frac{1}{2x_1} = \lambda p_1 \implies \lambda x_1 p_1 = \frac{1}{2}\]
+          </div></div>
+          <div class="step"><div class="step-body"><strong>FOC for \(x_2\):</strong>
+            \[\frac{1}{3x_2} = \lambda p_2 \implies \lambda x_2 p_2 = \frac{1}{3}\]
+          </div></div>
+          <div class="step"><div class="step-body"><strong>FOC for \(x_3\):</strong>
+            \[\frac{1}{6x_3} = \lambda p_3 \implies \lambda x_3 p_3 = \frac{1}{6}\]
+          </div></div>
+          <div class="step"><div class="step-body"><strong>Sum all three (using budget constraint):</strong>
+            \[\lambda(p_1 x_1 + p_2 x_2 + p_3 x_3) = \tfrac{1}{2}+\tfrac{1}{3}+\tfrac{1}{6} = 1 \implies \lambda w = 1 \implies \lambda = \frac{1}{w}\]
+          </div></div>
+          <div class="step"><div class="step-body"><strong>Back-substitute for each demand:</strong>
+            \[x_1^* = \frac{1}{2\lambda p_1} = \frac{w/2}{p_1}, \quad x_2^* = \frac{w/3}{p_2}, \quad x_3^* = \frac{w/6}{p_3}\]
+          </div></div>
+          <div class="step"><div class="step-body"><strong>Verify expenditure shares:</strong>
+            \[\frac{p_1 x_1^*}{w} = \frac{1}{2} = \alpha_1 \quad \frac{p_2 x_2^*}{w} = \frac{1}{3} = \alpha_2 \quad \frac{p_3 x_3^*}{w} = \frac{1}{6} = \alpha_3 \quad \checkmark\]
+          </div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- SUMMARY TABLE -->
+  <section class="concept" id="summary">
+    <div class="concept-header">
+      <div class="concept-num" style="color:var(--rust)">★</div>
+      <div class="concept-title-group">
+        <span class="concept-tag">Reference</span>
+        <h2>One-Page Summary</h2>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Concept</th><th>What it is</th><th>Key formula</th><th>Exam use</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Derivative</strong></td><td>Rate of change / slope</td><td>\(f'(x) = \lim_{h\to0}\frac{f(x+h)-f(x)}{h}\)</td><td>Every problem</td></tr>
+          <tr><td><strong>Partial derivative</strong></td><td>Slope w.r.t. one variable, rest fixed</td><td>\(\partial f/\partial x_i\)</td><td>Multi-variable problems</td></tr>
+          <tr><td><strong>FOC</strong></td><td>Necessary condition for optimum</td><td>\(\partial f/\partial x_i = 0\) for all \(i\)</td><td>All optimisation</td></tr>
+          <tr><td><strong>Lagrangian</strong></td><td>Embeds constraint into objective</td><td>\(\mathcal{L} = f - \lambda g\)</td><td>Constrained optimisation</td></tr>
+          <tr><td><strong>Jacobian</strong></td><td>Matrix of first partials of a system</td><td>\(J_{ij} = \partial f_i/\partial x_j\)</td><td>Stability analysis</td></tr>
+          <tr><td><strong>Hessian</strong></td><td>Matrix of second partials</td><td>\(H_{ij} = \partial^2 f/\partial x_i\partial x_j\)</td><td>Classify max / min</td></tr>
+          <tr><td><strong>Eigenvalue</strong></td><td>Stretching factor of a matrix</td><td>\(\det(A - \lambda I) = 0\)</td><td>ODE solutions, stability</td></tr>
+          <tr><td><strong>ODE solution</strong></td><td>Formula for \(x(t)\)</td><td>\(x(t) = C_1 e^{\lambda_1 t}\mathbf{v}_1 + C_2 e^{\lambda_2 t}\mathbf{v}_2\)</td><td>Dynamic problems</td></tr>
+          <tr><td><strong>Stability</strong></td><td>Does equilibrium self-restore?</td><td>\(\text{tr} < 0\) and \(\det > 0\) → stable</td><td>Phase portraits</td></tr>
+          <tr><td><strong>Limit at \(\infty\)</strong></td><td>Long-run value</td><td>Dominant exponential wins</td><td>Long-run ratios</td></tr>
+          <tr><td><strong>Marshallian demand</strong></td><td>Consumer's optimal bundle</td><td>\(x_i^* = \alpha_i w / p_i\)</td><td>Consumer theory</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout" style="margin-top:2rem">
+      <strong>Decision tree</strong>
+      <p style="margin-bottom:0.3rem"><strong>Optimisation problem?</strong><br>
+      → No constraint: FOC + Hessian SOC<br>
+      → With constraint: Lagrangian → FOC → solve → Bordered Hessian SOC</p>
+      <p style="margin-bottom:0.3rem"><strong>ODE problem?</strong><br>
+      → Single equation: separate variables → integrate → apply ICs<br>
+      → Linear system: eigenvalues of \(A\) → write general solution → apply ICs → limits</p>
+      <p style="margin-bottom:0"><strong>Stability problem?</strong><br>
+      → Find equilibria → Jacobian at each → trace &amp; det → classify</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>Math for Economics — A Complete Guide</p>
+  <p style="margin-top:0.5rem;font-size:0.8rem">Built with HTML, MathJax, and Google Fonts · Deployable on GitHub Pages</p>
+</footer>
+
+<script>
+  // Progress bar
+  const bar = document.getElementById('progress-bar');
+  const btn = document.getElementById('back-top');
+  window.addEventListener('scroll', () => {
+    const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+    bar.style.width = pct + '%';
+    btn.classList.toggle('visible', window.scrollY > 500);
+  });
+
+  // Reveal on scroll
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.concept').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
